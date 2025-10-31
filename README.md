@@ -189,32 +189,41 @@ Visit `http://localhost:5173`
 
 ### Current State
 
-The project uses **mock FHE functions** that simulate the encryption and aggregation flow. All FHE-specific code is marked with `TODO REPLACE WITH ZAMA SDK`.
+✅ **The project is now Zama Relayer SDK compliant!**
 
-### Replacing with Zama SDK
+The application uses the **@zama-fhe/relayer-sdk** for real FHE encryption and decryption:
+- **Encryption**: Uses `createEncryptedInput` to encrypt expense amounts as euint64
+- **Decryption**: Uses `publicDecrypt` and `userDecrypt` methods to decrypt stored ciphertexts
+- **CDN Integration**: SDK loaded from `cdn.zama.ai` with proper dependency management (Lodash)
+- **IPFS Storage**: Encrypted data stored on IPFS with metadata fallback support
+- **Fallback Support**: Graceful handling of legacy/unencrypted data
 
-See `docs/zama-integration.md` for detailed integration steps. Quick overview:
+### Key Implementation Files
 
-1. **Install Zama SDK**:
-   ```bash
-   npm install @zama-ai/fhevm-js
-   ```
+- `private-ledger-flow/src/lib/zama-sdk.ts`: SDK initialization and loading
+- `private-ledger-flow/src/lib/fhe.ts`: Encryption/decryption logic
+- `private-ledger-flow/index.html`: CDN script tags for SDK and dependencies
+- `private-ledger-flow/src/pages/Records.tsx`: Decryption with metadata fallback
 
-2. **Update `frontend/src/lib/fhe.ts`**:
-   ```typescript
-   // Replace mock with:
-   import { FHE } from '@zama-ai/fhevm-js';
-   
-   export async function encryptExpenseWithFHE(payload: ExpensePayload): Promise<EncryptedExpense> {
-     const ciphertext = await FHE.encrypt(payload.amount, {
-       publicKey: await getPublicKey(),
-       dataType: 'euint64'
-     });
-     return { ciphertext: Buffer.from(ciphertext).toString('base64') };
-   }
-   ```
+### Architecture
 
-3. **Update Coprocessor calls** in `backend/src/services/coprocService.ts`
+```
+Frontend (React)
+    ↓
+Zama Relayer SDK (cdn.zama.ai)
+    ↓
+Encrypt: createEncryptedInput() → handles[0] (32-byte ciphertext)
+    ↓
+IPFS Storage (encrypted blob + metadata)
+    ↓
+On-chain attestation (ConfidentialExpenses.sol)
+    ↓
+Backend listener → Decrypt via publicDecrypt/userDecrypt
+```
+
+### SDK Usage
+
+The SDK is loaded asynchronously from CDN and automatically initializes on app startup. Encryption uses the `createEncryptedInput` API which returns ciphertext in the `handles[0]` array.
 
 ### Expected Coprocessor I/O
 
