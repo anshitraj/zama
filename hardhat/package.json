@@ -1,0 +1,22 @@
+{
+  "name": "tracker-hardhat",
+  "version": "1.0.0",
+  "description": "Hardhat project for Private Transaction Tracker",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts",
+    "verify": "hardhat run scripts/verify.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomicfoundation/hardhat-verify": "^2.0.0",
+    "@types/node": "^20.10.0",
+    "dotenv": "^16.3.1",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "ethers": "^6.9.0"
+  }
+}
+

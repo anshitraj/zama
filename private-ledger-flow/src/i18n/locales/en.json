@@ -1,0 +1,92 @@
+{
+  "app": {
+    "title": "Private Transaction Tracker",
+    "subtitle": "Encrypted Expense Dashboard"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "records": "Records",
+    "verify": "Verify",
+    "settings": "Settings",
+    "admin": "Admin"
+  },
+  "dashboard": {
+    "title": "Your Encrypted Expenses",
+    "totalExpenses": "Total Expenses",
+    "monthlyTotal": "This Month",
+    "recordCount": "Total Records",
+    "addExpense": "Add Expense",
+    "recentTransactions": "Recent Transactions",
+    "noData": "No expenses yet",
+    "noDataDesc": "Start tracking your private expenses securely",
+    "encrypted": "Encrypted",
+    "attested": "Attested on chain"
+  },
+  "expense": {
+    "add": "Add New Expense",
+    "amount": "Amount",
+    "currency": "Currency",
+    "category": "Category",
+    "note": "Note (optional)",
+    "submit": "Submit & Encrypt",
+    "categories": {
+      "food": "Food & Dining",
+      "travel": "Travel",
+      "salary": "Salary",
+      "shopping": "Shopping",
+      "utilities": "Utilities",
+      "misc": "Miscellaneous"
+    },
+    "encrypting": "Encrypting...",
+    "uploading": "Uploading to IPFS...",
+    "attesting": "Attesting on-chain...",
+    "success": "Expense added successfully!",
+    "error": "Failed to add expense"
+  },
+  "records": {
+    "title": "Public Records",
+    "filterCategory": "Filter by category",
+    "filterDate": "Filter by date",
+    "allCategories": "All Categories",
+    "decrypt": "Decrypt Locally",
+    "viewOnExplorer": "View on Etherscan",
+    "noRecords": "No records found"
+  },
+  "verify": {
+    "title": "Verify Attestation",
+    "enterCid": "Enter IPFS CID to verify",
+    "verify": "Verify",
+    "verified": "Verified",
+    "notVerified": "Not Verified",
+    "explanation": "This attestation proves that the encrypted expense was submitted and recorded on the Sepolia blockchain."
+  },
+  "settings": {
+    "title": "Privacy Settings",
+    "keys": "Encryption Keys",
+    "generateNew": "Generate New Keypair",
+    "exportKeys": "Export Keys",
+    "importKeys": "Import Keys",
+    "useWalletKeys": "Derive keys from wallet",
+    "autoUpload": "Auto-upload to IPFS",
+    "shareableProofs": "Enable shareable proof links",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "wallet": {
+    "connect": "Connect Wallet",
+    "disconnect": "Disconnect",
+    "wrongNetwork": "Wrong Network",
+    "switchToSepolia": "Switch to Sepolia",
+    "connected": "Connected"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save"
+  }
+}

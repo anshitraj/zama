@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.local
+
+# Build outputs
+dist/
+build/
+*.sol.js
+artifacts/
+cache/
+typechain-types/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Hardhat
+hardhat/deployments/localhost
+hardhat/cache/
+
+# Frontend
+private-ledger-flow/.next
+private-ledger-flow/out
+private-ledger-flow/.vite
+
+# Docker
+.dockerignore
+
+# Generated files
+*.generated.*
+*.bin
+
+# Prisma
+**/generated/
+
+# Secrets
+*.key
+*.pem
+secrets/
+
+# Local development
+.local/
+

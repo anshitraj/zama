@@ -1,0 +1,163 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test-hardhat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          cd hardhat
+          npm ci
+      
+      - name: Run Hardhat tests
+        run: |
+          cd hardhat
+          npm test
+      
+      - name: Compile contracts
+        run: |
+          cd hardhat
+          npm run compile
+
+  test-backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: tracker_db
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm ci
+      
+      - name: Generate Prisma Client
+        run: |
+          cd backend
+          npx prisma generate
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tracker_db
+      
+      - name: Run migrations
+        run: |
+          cd backend
+          npx prisma migrate deploy
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tracker_db
+      
+      - name: Run backend tests
+        run: |
+          cd backend
+          npm test
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/tracker_db
+
+  test-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          cd private-ledger-flow
+          npm ci
+      
+      - name: Run frontend tests
+        run: |
+          cd private-ledger-flow
+          npm test -- --run
+      
+      - name: Build frontend
+        run: |
+          cd private-ledger-flow
+          npm run build
+        env:
+          VITE_CONTRACT_ADDRESS: 0x0000000000000000000000000000000000000000
+          VITE_SEPOLIA_RPC_URL: https://rpc.sepolia.org
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Run linter (hardhat)
+        run: |
+          cd hardhat
+          npm ci
+          # Add linting if configured
+          # npm run lint
+      
+      - name: Run linter (backend)
+        run: |
+          cd backend
+          npm ci
+          npm run lint || true
+      
+      - name: Run linter (frontend)
+        run: |
+          cd private-ledger-flow
+          npm ci
+          npm run lint || true
+
+  deploy-preview:
+    needs: [test-hardhat, test-backend, test-frontend, lint]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Build and deploy preview
+        run: |
+          echo "Preview deployment would go here"
+          echo "Examples: Vercel, Netlify, etc."
+

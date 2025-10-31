@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Private Transaction Tracker - Encrypted Expense Dashboard</title>
+    <meta name="description" content="Track your private expenses with Fully Homomorphic Encryption (FHE) and blockchain attestation. Secure, encrypted, and decentralized expense management." />
+    <meta name="author" content="Private Transaction Tracker" />
+    <meta name="keywords" content="FHE, homomorphic encryption, blockchain, IPFS, expense tracker, privacy, Web3" />
+
+    <meta property="og:title" content="Private Transaction Tracker" />
+    <meta property="og:description" content="Encrypted expense tracking with FHE and blockchain attestation" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@zama_fhe" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Lodash (required by Zama Relayer SDK) - MUST load synchronously before SDK -->
+    <!-- Load WITHOUT async/defer to ensure it's available when SDK loads -->
+    <script>
+      // Load lodash synchronously FIRST, before anything else
+      (function() {
+        if (typeof window._ === 'undefined') {
+          console.log('🔍 [LOADER] Loading lodash synchronously...');
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js';
+          script.async = false;
+          script.defer = false;
+          script.onload = function() {
+            console.log('✅ [LOADER] Lodash loaded, window._ available:', typeof window._ !== 'undefined');
+            console.log('✅ [LOADER] window._ type:', typeof window._);
+            console.log('✅ [LOADER] window._ has map:', typeof window._?.map === 'function');
+          };
+          script.onerror = function() {
+            console.error('❌ [LOADER] Failed to load lodash!');
+          };
+          // Insert at the beginning of head to ensure it loads first
+          document.head.insertBefore(script, document.head.firstChild);
+        } else {
+          console.log('✅ [LOADER] Lodash already available');
+        }
+      })();
+    </script>
+    
+    <!-- Zama Relayer SDK CDN - Loads AFTER lodash -->
+    <!-- Note: Server returns MIME type "application/node" but script still works -->
+    <script
+      src="https://cdn.zama.ai/relayer-sdk-js/0.2.0/relayer-sdk-js.umd.cjs"
+      type="text/javascript"
+      onload="console.log('✅ Zama SDK script loaded, checking window.relayerSDK...'); console.log('window.relayerSDK:', window.relayerSDK); console.log('window._ available:', typeof window._ !== 'undefined'); console.log('window._ has map:', typeof window._?.map === 'function'); this.setAttribute('data-loaded', 'true');"
+      onerror="console.error('❌ Failed to load Zama SDK from CDN');"
+    ></script>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

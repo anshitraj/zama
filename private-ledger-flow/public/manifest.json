@@ -1,0 +1,16 @@
+{
+  "name": "Private Transaction Tracker",
+  "short_name": "PTT",
+  "description": "Encrypted expense dashboard with FHE and blockchain attestation",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f14",
+  "theme_color": "#a855f7",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
